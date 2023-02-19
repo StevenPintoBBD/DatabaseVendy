@@ -2,8 +2,8 @@ USE VendyDB;
 Go
 
 --Insert into tables that have no FK first. this prevents any referential issues.
-INSERT INTO [dbo].[Categories]
-			([CategoryName])
+INSERT INTO [dbo].[ItemCategory]
+			(Category_name)
 VALUES ('Sweets'),
 	   ('Drinks'),
 	   ('Chips'),
@@ -14,17 +14,16 @@ GO
 INSERT INTO [dbo].[BranchLocation]
 			([Postcode]
 			,[City]
-			,[Suburb]
 			)
-VALUES (2196, 'Johannesburg', 'Rosebank'),
-	   (0181, 'Pretoria', 'Groenkloof'),
-	   (7441, 'Cape Town', 'Century City')
+VALUES (2196, 'Johannesburg'),
+	   (0181, 'Pretoria'),
+	   (7441, 'Cape Town')
 GO
 
-INSERT INTO [dbo].[Employees]
-			([FirstName]
-			,[LastName]
-			,[AllocatedCredits]
+INSERT INTO [dbo].[Employee]
+			([First_name]
+			,[Last_name]
+			,[Allocated_credits]
 			)
 VALUES ('Steven','Pinto', 10),
 	   ('Sebongile','Mazibuko',10),
@@ -34,7 +33,7 @@ GO
 
 --Insert into the tables that rely on these tables.
 INSERT INTO [dbo].[Branch]
-			([BranchName]
+			([Branch_name]
 			,[PostCode]
 			)
 VALUES ('BBD Rosebank HQ', 2196),
@@ -42,10 +41,10 @@ VALUES ('BBD Rosebank HQ', 2196),
 	   ('BBD Cape Town HQ', 7441)
 GO
 
-INSERT INTO [dbo].[Rooms]
-			([BranchId]
-			,[RoomName]
-			,[RoomFloor]
+INSERT INTO [dbo].[Room]
+			([Branch_ID]
+			,[Room_name]
+			,[Room_floor]
 			)
 VALUES	(1,'Canteen',1),
 		(1,'Kitchen',2),
@@ -54,10 +53,10 @@ VALUES	(1,'Canteen',1),
 		(3,'Kitchen',2)
 GO
 
-INSERT INTO [dbo].[VendingMachines]
-			([RoomId]
+INSERT INTO [dbo].[VendingMachine]
+			([Room_ID]
 			,[Capacity]
-			,[TotalRevenue]
+			,[Total_revenue]
 			)
 VALUES (1, 64, 100.00),
 	   (1, 64, 65.00),
@@ -69,13 +68,13 @@ VALUES (1, 64, 100.00),
 	   (5, 32, 126.00)
 GO
 
-INSERT INTO [dbo].[Items]
-			([VMachineId]
-			,[ItemName]
+INSERT INTO [dbo].[Item]
+			([Vmachine_ID]
+			,[Item_name]
 			,[Price]
-			,[CategoryId]
+			,[Category_ID]
 			,[Quantity]
-			,[ItemPosition]
+			,[Item_position]
 			)
 VALUES	(1,'Coca-cola',5,2,10,'E1'),
 		(1,'Fanta Orange',5,2,10,'E2'),
@@ -138,10 +137,10 @@ VALUES	(1,'Coca-cola',5,2,10,'E1'),
 		(8,'Liqui-Fruit Orange juice',5,2,10,'E3')
 GO
 
-INSERT INTO [dbo].[Orders]
-			([OrderDate]
-			,[ItemId]
-			,[EmployeeId]
+INSERT INTO [dbo].[Transactions]
+			([Transaction_date]
+			,[Item_ID]
+			,[Employee_ID]
 			)
 VALUES ('1 February 2023',4,3),
 	   ('1 February 2023',6,2),
