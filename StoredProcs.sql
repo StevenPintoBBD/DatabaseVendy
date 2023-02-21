@@ -2,6 +2,9 @@
 USE VendyDB;
 GO
 --Add Transaction to table When a new employee interacts)
+IF OBJECT_ID ( '[dbo].[uspAddTransactionNewEmployee]', 'P' ) IS NOT NULL   
+    DROP PROCEDURE [dbo].[uspAddTransactionNewEmployee];  
+GO
 CREATE PROCEDURE [dbo].[uspAddTransactionNewEmployee]
 	@TransactionDate Date,
 	@ItemId int,
@@ -21,7 +24,7 @@ BEGIN
 
 			DECLARE @EmployeeId int
 			SET @EmployeeId = SCOPE_IDENTITY()
-
+			
 			INSERT INTO [dbo].[Transactions]
 				([Transaction_date]
 				,[Item_ID]
@@ -29,7 +32,16 @@ BEGIN
 			VALUES
 				(@TransactionDate, @ItemId, @EmployeeId)
 
-				COMMIT TRANSACTION
+			UPDATE [dbo].[Item]
+			SET [Quantity] = Quantity - 1
+			WHERE [Item_ID] = @ItemID;
+
+			UPDATE [dbo].[Employee]
+			SET Employee.Allocated_credits = Employee.Allocated_credits -  Item.Price
+			FROM dbo.Employee, dbo.Item
+			WHERE Item.Item_ID = @ItemID AND Employee.Employee_ID = @EmployeeId;
+
+			COMMIT TRANSACTION
 		END TRY
 		BEGIN CATCH
 			ROLLBACK TRANSACTION
@@ -37,6 +49,9 @@ BEGIN
 END
 GO
 
+IF OBJECT_ID ( '[dbo].[uspAddTransactionPastEmployee]', 'P' ) IS NOT NULL   
+    DROP PROCEDURE [dbo].[uspAddTransactionPastEmployee]  
+GO
 CREATE PROCEDURE [dbo].[uspAddTransactionPastEmployee]
 	@TransactionDate Date,
 	@ItemId int,
@@ -52,6 +67,15 @@ BEGIN
 			VALUES
 				(@TransactionDate, @ItemId, @EmployeeId)
 
+			UPDATE [dbo].[Item]
+			SET [Quantity] = Quantity - 1
+			WHERE [Item_ID] = @ItemID;
+
+			UPDATE [dbo].[Employee]
+			SET Employee.Allocated_credits = Employee.Allocated_credits -  Item.Price
+			FROM dbo.Employee, dbo.Item
+			WHERE Item.Item_ID = @ItemID AND Employee.Employee_ID = @EmployeeId;
+
 			COMMIT TRANSACTION
 		END TRY
 		BEGIN CATCH
@@ -61,6 +85,9 @@ END
 GO
 
 --Add Vending machine new locations
+IF OBJECT_ID ( '[dbo].[uspAddVendingMachineNewLocation]', 'P' ) IS NOT NULL   
+    DROP PROCEDURE [dbo].[uspAddVendingMachineNewLocation]  
+GO
 CREATE PROCEDURE [dbo].[uspAddVendingMachineNewLocation]
 	@PostCode int,
 	@City varchar(50),
@@ -70,7 +97,6 @@ CREATE PROCEDURE [dbo].[uspAddVendingMachineNewLocation]
 	@TotalRevenue float,
 	@Capacity int
 AS
-
 BEGIN
 	BEGIN TRANSACTION
 		BEGIN TRY
@@ -107,6 +133,8 @@ BEGIN
 				,[Total_revenue])
 			VALUES 
 				(@RoomId, @Capacity, @TotalRevenue)
+
+			COMMIT TRANSACTION
 		END TRY
 		BEGIN CATCH
 			ROLLBACK TRANSACTION
@@ -114,6 +142,9 @@ BEGIN
 END
 GO
 --Add vendingmachine to prev room
+IF OBJECT_ID ( '[dbo].[uspAddVendingMachinePastLocation]', 'P' ) IS NOT NULL   
+    DROP PROCEDURE [dbo].[uspAddVendingMachinePastLocation]  
+GO
 CREATE PROCEDURE [dbo].[uspAddVendingMachinePastLocation]
 	@RoomId int,
 	@TotalRevenue float,
@@ -129,6 +160,8 @@ BEGIN
 				,[Total_revenue])
 			VALUES 
 				(@RoomId, @Capacity, @TotalRevenue)
+
+			COMMIT TRANSACTION
 		END TRY
 		BEGIN CATCH
 			ROLLBACK TRANSACTION
@@ -136,6 +169,9 @@ BEGIN
 END
 GO
 --Update vending machine
+IF OBJECT_ID ( '[dbo].[uspUpdateVendingMachine]', 'P' ) IS NOT NULL   
+    DROP PROCEDURE [dbo].[uspUpdateVendingMachine]  
+GO
 CREATE PROCEDURE [dbo].[uspUpdateVendingMachine]
 	@VendingMachineId int,
 	@RoomId int,
@@ -148,6 +184,8 @@ BEGIN
 			UPDATE [dbo].[VendingMachine]
 			SET [Room_ID] = @RoomId, [Total_revenue] = @TotalRevenue, [Capacity] = @Capacity
 			WHERE [Vmachine_ID] = @VendingMachineId;
+
+			COMMIT TRANSACTION
 		END TRY
 		BEGIN CATCH
 			ROLLBACK TRANSACTION
