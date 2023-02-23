@@ -3,7 +3,7 @@ Go
 
 --Insert into tables that have no FK first. this prevents any referential issues.
 INSERT INTO [dbo].[ItemCategory]
-			(Category_name)
+			(CategoryName)
 VALUES ('Sweets'),
 	   ('Drinks'),
 	   ('Chips'),
@@ -21,9 +21,9 @@ VALUES (2196, 'Johannesburg'),
 GO
 
 INSERT INTO [dbo].[Employee]
-			([First_name]
-			,[Last_name]
-			,[Allocated_credits]
+			([FirstName]
+			,[LastName]
+			,[AllocatedCredits]
 			)
 VALUES ('Steven','Pinto', 10),
 	   ('Sebongile','Mazibuko',10),
@@ -33,7 +33,7 @@ GO
 
 --Insert into the tables that rely on these tables.
 INSERT INTO [dbo].[Branch]
-			([Branch_name]
+			([BranchName]
 			,[PostCode]
 			)
 VALUES ('BBD Rosebank HQ', 2196),
@@ -42,9 +42,9 @@ VALUES ('BBD Rosebank HQ', 2196),
 GO
 
 INSERT INTO [dbo].[Room]
-			([Branch_ID]
-			,[Room_name]
-			,[Room_floor]
+			([BranchID]
+			,[RoomName]
+			,[RoomFloor]
 			)
 VALUES	(1,'Canteen',1),
 		(1,'Kitchen',2),
@@ -54,9 +54,9 @@ VALUES	(1,'Canteen',1),
 GO
 
 INSERT INTO [dbo].[VendingMachine]
-			([Room_ID]
+			([RoomID]
 			,[Capacity]
-			,[Total_revenue]
+			,[TotalRevenue]
 			)
 VALUES (1, 64, 100.00),
 	   (1, 64, 65.00),
