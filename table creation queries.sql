@@ -1,3 +1,6 @@
+USE master;
+GO
+
 CREATE DATABASE VendyDB
 GO
 
@@ -40,7 +43,7 @@ CREATE TABLE Item (
 	VmachineId int null,
 	ItemName varchar(100),
 	Price float null,
-	Category_ID int null,
+	CategoryID int null,
 	Quantity int null,
 	ItemPosition varchar(2),
 	constraint pk_Item primary key clustered (ItemId asc)
