@@ -16,9 +16,9 @@ BEGIN
 	BEGIN TRANSACTION
 		BEGIN TRY
 			INSERT INTO [dbo].[Employee]
-				([First_name]
-				,[Last_name]
-				,[Allocated_credits])
+				([FirstName]
+				,[LastName]
+				,[AllocatedCredits])
 			VALUES
 				(@FirstName,@LastName,@AllocatedCredits)
 
@@ -26,20 +26,20 @@ BEGIN
 			SET @EmployeeId = SCOPE_IDENTITY()
 			
 			INSERT INTO [dbo].[Transactions]
-				([Transaction_date]
-				,[Item_ID]
-				,[Employee_ID])
+				([TransactionDate]
+				,[ItemId]
+				,[EmployeeId])
 			VALUES
 				(@TransactionDate, @ItemId, @EmployeeId)
 
 			UPDATE [dbo].[Item]
 			SET [Quantity] = Quantity - 1
-			WHERE [Item_ID] = @ItemID;
+			WHERE [ItemId] = @ItemID;
 
 			UPDATE [dbo].[Employee]
-			SET Employee.Allocated_credits = Employee.Allocated_credits -  Item.Price
+			SET Employee.AllocatedCredits = Employee.AllocatedCredits -  Item.Price
 			FROM dbo.Employee, dbo.Item
-			WHERE Item.Item_ID = @ItemID AND Employee.Employee_ID = @EmployeeId;
+			WHERE Item.ItemId = @ItemID AND Employee.EmployeeId = @EmployeeId;
 
 			COMMIT TRANSACTION
 		END TRY
@@ -63,20 +63,20 @@ BEGIN
 	BEGIN TRANSACTION
 		BEGIN TRY
 			INSERT INTO [dbo].[Transactions]
-				([Transaction_date]
-				,[Item_ID]
-				,[Employee_ID])
+				([TransactionDate]
+				,[ItemId]
+				,[EmployeeId])
 			VALUES
 				(@TransactionDate, @ItemId, @EmployeeId)
 
 			UPDATE [dbo].[Item]
 			SET [Quantity] = Quantity - 1
-			WHERE [Item_ID] = @ItemID;
+			WHERE [ItemId] = @ItemID;
 
 			UPDATE [dbo].[Employee]
-			SET Employee.Allocated_credits = Employee.Allocated_credits -  Item.Price
+			SET Employee.AllocatedCredits = Employee.AllocatedCredits -  Item.Price
 			FROM dbo.Employee, dbo.Item
-			WHERE Item.Item_ID = @ItemID AND Employee.Employee_ID = @EmployeeId;
+			WHERE Item.ItemId = @ItemID AND Employee.EmployeeId = @EmployeeId;
 
 			COMMIT TRANSACTION
 		END TRY
@@ -110,7 +110,7 @@ BEGIN
 				(@PostCode, @City)
 
 			INSERT INTO [dbo].[Branch]
-				([Branch_name]
+				([BranchName]
 				,[Postcode])
 			VALUES
 				(@BranchName, @PostCode)
@@ -119,9 +119,9 @@ BEGIN
 			SET @BranchId = SCOPE_IDENTITY()
 
 			INSERT INTO [dbo].[Room]
-				([Branch_ID]
-				,[Room_name]
-				,[Room_floor]
+				([BranchId]
+				,[RoomName]
+				,[RoomFloor]
 				)
 			VALUES
 				(@BranchId, @RoomName, @RoomFloor)
@@ -130,9 +130,9 @@ BEGIN
 			SET @RoomId = SCOPE_IDENTITY();
 
 			INSERT INTO [dbo].[VendingMachine]
-				([Room_ID]
+				([RoomId]
 				,[Capacity]
-				,[Total_revenue])
+				,[TotalRevenue])
 			VALUES 
 				(@RoomId, @Capacity, @TotalRevenue)
 
@@ -157,9 +157,9 @@ BEGIN
 	BEGIN TRANSACTION
 		BEGIN TRY
 			INSERT INTO [dbo].[VendingMachine]
-				([Room_ID]
+				([RoomId]
 				,[Capacity]
-				,[Total_revenue])
+				,[TotalRevenue])
 			VALUES 
 				(@RoomId, @Capacity, @TotalRevenue)
 
@@ -185,8 +185,8 @@ BEGIN
 	BEGIN TRANSACTION
 		BEGIN TRY
 			UPDATE [dbo].[VendingMachine]
-			SET [Room_ID] = @RoomId, [Total_revenue] = @TotalRevenue, [Capacity] = @Capacity
-			WHERE [Vmachine_ID] = @VendingMachineId;
+			SET [RoomId] = @RoomId, [TotalRevenue] = @TotalRevenue, [Capacity] = @Capacity
+			WHERE [VmachineId] = @VendingMachineId;
 
 			COMMIT TRANSACTION
 		END TRY
