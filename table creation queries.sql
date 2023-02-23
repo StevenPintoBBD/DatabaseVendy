@@ -67,7 +67,7 @@ CREATE TABLE Employee (
 	EmployeeId int identity (1,1) not null,
 	FirstName varchar(50) null,
 	LastName varchar(50) null, 
-	Allocated_credits int null,
+	AllocatedCredits int null,
 	constraint pk_Employee primary key clustered (EmployeeId)
 );
 
