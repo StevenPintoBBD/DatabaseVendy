@@ -74,7 +74,7 @@ INSERT INTO [dbo].[Item]
 			,[Price]
 			,[CategoryId]
 			,[Quantity]
-			,[Item_position]
+			,[ItemPosition]
 			)
 VALUES	(1,'Coca-cola',5,2,10,'E1'),
 		(1,'Fanta Orange',5,2,10,'E2'),
