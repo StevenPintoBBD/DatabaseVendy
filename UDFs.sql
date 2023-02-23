@@ -14,9 +14,10 @@ BEGIN
 	DECLARE @MostBoughtItemId int;
 	DECLARE @MostBoughtItemName varChar(50);
 
-	SELECT @MostBoughtItemId = COUNT(ItemId) FROM Transactions
-	WHERE EmployeeId = @EmployeeId;
-
+	SELECT @MostBoughtItemId = COUNT(ItemId) FROM Transactions WHERE EmployeeId=@EmployeeId
+	GROUP BY ItemId
+	ORDER BY COUNT(ItemId)
+	
 	SELECT @MostBoughtItemName = ItemName FROM Item
 	WHERE ItemId = @MostBoughtItemId;
 
@@ -29,7 +30,6 @@ GO
 IF OBJECT_ID ( '[dbo].[udfMostTransactionOnDatePerVmachine]', 'FN' ) IS NOT NULL   
     DROP FUNCTION [dbo].[udfMostTransactionOnDatePerVmachine]  
 GO
-
 CREATE FUNCTION [dbo].[udfMostTransactionOnDatePerVmachine](
 )
 RETURNS TABLE
