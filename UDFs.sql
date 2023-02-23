@@ -14,36 +14,41 @@ BEGIN
 	DECLARE @MostBoughtItemId int;
 	DECLARE @MostBoughtItemName varChar(50);
 
-	SELECT @MostBoughtItemId = COUNT(Item_ID) FROM Transactions
-	WHERE Employee_ID = @EmployeeId;
+	SELECT @MostBoughtItemId = COUNT(ItemId) FROM Transactions
+	WHERE EmployeeId = @EmployeeId;
 
-	SELECT @MostBoughtItemName = Item_name FROM Item
-	WHERE Item_ID = @MostBoughtItemId;
+	SELECT @MostBoughtItemName = ItemName FROM Item
+	WHERE ItemId = @MostBoughtItemId;
 
 	RETURN @MostBoughtItemName;
 END
 GO
 
 -- get the most used days along with transaction amount per vending machine 
+
+IF OBJECT_ID ( '[dbo].[udfMostTransactionOnDatePerVmachine]', 'FN' ) IS NOT NULL   
+    DROP FUNCTION [dbo].[udfMostTransactionOnDatePerVmachine]  
+GO
+
 CREATE FUNCTION [dbo].[udfMostTransactionOnDatePerVmachine](
 )
 RETURNS TABLE
 AS
 RETURN
 
-SELECT i.Vmachine_ID, t.Transaction_date, COUNT(t.Transaction_date) AS total_transactions
-FROM transactions t
+SELECT i.VmachineId, t.TransactionDate, COUNT(t.TransactionDate) AS TotalTransactions
+FROM Transactions t
 LEFT JOIN Item i
-ON i.Item_ID = t.Item_ID
-GROUP BY i.Vmachine_ID, t.Transaction_date
-HAVING count(t.Transaction_date) = (
-    SELECT MAX(count_transactions) 
+ON i.ItemId = t.ItemId
+GROUP BY i.VmachineId, t.TransactionDate
+HAVING count(t.TransactionDate) = (
+    SELECT MAX(CountTransactions) 
     FROM (
-        SELECT COUNT(*) AS count_transactions , i.Vmachine_ID
-        FROM transactions t
+        SELECT COUNT(*) AS CountTransactions , i.VmachineId
+        FROM Transactions t
 		left join Item i
-		on i.Item_ID = t.Item_ID
-        GROUP BY i.Vmachine_ID, transaction_date
+		on i.ItemId = t.ItemId
+        GROUP BY i.VmachineId, transactionDate
     ) AS subtable 
-    WHERE subtable.Vmachine_ID = i.Vmachine_ID
+    WHERE subtable.VmachineId = i.VmachineId
 )
