@@ -4,16 +4,16 @@ Go
 -- View to display all drinks available in Gauteng offices
 CREATE VIEW vGautengDrinks
 AS
-SELECT Item_ID, Item_name, vMachine_ID, Category_ID
+SELECT ItemId, ItemName, vMachineId, CategoryId
 FROM [dbo].[Item]
-WHERE vMachine_ID BETWEEN 1 AND 3
-AND Category_ID = 2;
+WHERE vMachineId BETWEEN 1 AND 3
+AND CategoryId = 2;
 GO
 
 -- View to show the more expensive items in all current vending machines
 CREATE VIEW vExpensiveItems
 AS
-SELECT Item_ID, Item_name, Price
+SELECT ItemId, ItemName, Price
 FROM [dbo].[Item]
 WHERE Price > (SELECT AVG(Price) FROM Item);
 GO
@@ -22,8 +22,8 @@ GO
 -- View to show the best performing vending machines 
 CREATE VIEW vBestPerformingVendingMAchines
 AS
-SELECT vMachine_ID, Total_revenue
+SELECT vMachineId, TotalRevenue
 FROM [dbo].[VendingMachine]
-WHERE Total_revenue >= 150  
+WHERE TotalRevenue >= 150  
 GO
 
