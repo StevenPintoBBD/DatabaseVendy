@@ -43,7 +43,7 @@ CREATE TABLE Item (
 	VmachineId int null,
 	ItemName varchar(100),
 	Price float null,
-	CategoryID int null,
+	CategoryId int null,
 	Quantity int null,
 	ItemPosition varchar(2),
 	constraint pk_Item primary key clustered (ItemId asc)
