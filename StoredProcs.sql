@@ -1,7 +1,7 @@
 --Stored Procedures
 USE VendyDB;
 GO
---Add Transaction to table When a new employee interacts)
+--Add Transaction to table When a new employee attempts to get an item (NO validation for enough creditss)
 IF OBJECT_ID ( '[dbo].[uspAddTransactionNewEmployee]', 'P' ) IS NOT NULL   
     DROP PROCEDURE [dbo].[uspAddTransactionNewEmployee];  
 GO
@@ -49,6 +49,8 @@ BEGIN
 END
 GO
 
+--Add Transaction to table When a past employee attempts to get an item (NO validation for enough creditss) 
+--(THESE CHECKS SHOULD HAPPEN ON BACKEND)
 IF OBJECT_ID ( '[dbo].[uspAddTransactionPastEmployee]', 'P' ) IS NOT NULL   
     DROP PROCEDURE [dbo].[uspAddTransactionPastEmployee]  
 GO
@@ -141,7 +143,7 @@ BEGIN
 		END CATCH
 END
 GO
---Add vendingmachine to prev room
+--Add vendingmachine to a location in the table.
 IF OBJECT_ID ( '[dbo].[uspAddVendingMachinePastLocation]', 'P' ) IS NOT NULL   
     DROP PROCEDURE [dbo].[uspAddVendingMachinePastLocation]  
 GO
@@ -168,6 +170,7 @@ BEGIN
 		END CATCH
 END
 GO
+
 --Update vending machine
 IF OBJECT_ID ( '[dbo].[uspUpdateVendingMachine]', 'P' ) IS NOT NULL   
     DROP PROCEDURE [dbo].[uspUpdateVendingMachine]  
