@@ -148,5 +148,17 @@ VALUES ('1 February 2023',4,3),
 	   ('7 January 2023',16,2),
 	   ('14 February 2023',3,4),
 	   ('2 January 2023',16,2),
-	   ('3 February 2023',17,4)
+	   ('3 February 2023',17,4),
+	   --DupeTransactions for mostBought On employee 4
+	   ('10 February 2023',5,4),
+	   ('11 February 2023',5,4),
+	   ('12 February 2023',5,4),
+	   ('13 February 2023',5,4),
+	   ('14 February 2023',5,4),
+	   --DUpeDates for most used days
+	   ('10 February 2023',5,1),
+	   ('10 February 2023',6,3),
+	   ('10 February 2023',7,4),
+	   ('10 February 2023',4,2),
+	   ('10 February 2023',1,2)
 GO
