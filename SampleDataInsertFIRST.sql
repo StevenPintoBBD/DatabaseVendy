@@ -69,10 +69,10 @@ VALUES (1, 64, 100.00),
 GO
 
 INSERT INTO [dbo].[Item]
-			([Vmachine_ID]
-			,[Item_name]
+			([VmachineId]
+			,[ItemName]
 			,[Price]
-			,[Category_ID]
+			,[CategoryId]
 			,[Quantity]
 			,[Item_position]
 			)
@@ -138,9 +138,9 @@ VALUES	(1,'Coca-cola',5,2,10,'E1'),
 GO
 
 INSERT INTO [dbo].[Transactions]
-			([Transaction_date]
-			,[Item_ID]
-			,[Employee_ID]
+			([TransactionDate]
+			,[ItemId]
+			,[EmployeeId]
 			)
 VALUES ('1 February 2023',4,3),
 	   ('1 February 2023',6,2),
